@@ -3,6 +3,7 @@ package com.example.picasso.controller.inventory;
 import com.example.picasso.dto.inventory.InventoryCreateRequestDTO;
 import com.example.picasso.dto.inventory.InventoryCreateResponseDTO;
 import com.example.picasso.dto.inventory.InventoryFetchRequestDTO;
+import com.example.picasso.dto.inventory.InventoryUpdateRequestDTO;
 import com.example.picasso.model.inventory.Filter;
 import com.example.picasso.model.inventory.Inventory;
 import com.example.picasso.service.inventory.InventoryService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/inventory")
@@ -49,5 +51,27 @@ public class InventoryController {
         return new ResponseEntity<List<Inventory>>(response, HttpStatus.OK);
 
     }
+
+//    @PutMapping("/{update}")
+//    public ResponseEntity<Inventory> updateInventory(@RequestParam String id,@RequestParam String name,@RequestBody Inventory body){
+//        inventoryService.updateInventory(id,name);
+////        System.out.println(name);
+////        System.out.println(body.getName());
+//
+//        return new ResponseEntity<Inventory>(body,HttpStatus.OK);
+//
+//
+//    }
+    @PutMapping("/{id}")
+        public ResponseEntity<Inventory> updateInventory(@PathVariable("id") String id,@RequestBody InventoryUpdateRequestDTO body ){
+            Inventory inventory = inventoryService.updateInventory(id,body);
+            InventoryCreateResponseDTO response = new InventoryCreateResponseDTO("successfully updated the name.");
+            return new ResponseEntity<Inventory>(inventory,HttpStatus.OK);
+
+    }
+
+
+
+
 }
 
