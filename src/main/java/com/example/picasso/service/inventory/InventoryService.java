@@ -1,5 +1,6 @@
 package com.example.picasso.service.inventory;
 
+import com.example.picasso.dto.inventory.InventoryUpdateRequestDTO;
 import com.example.picasso.model.inventory.Filter;
 import com.example.picasso.model.inventory.Inventory;
 import com.example.picasso.repository.inventory.InventoryRepositoryI;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -40,5 +42,22 @@ public class InventoryService {
         List<Inventory> inventories = inventoryRepositoryI.findByfilters(search, categories, brands);
         return inventories;
     }
+//    public void updateInventory(String id,String name){
+//        inventoryRepositoryI.updatenameById(id,name);}
+
+    public Inventory updateInventory(String id, InventoryUpdateRequestDTO body) {
+        Optional<Inventory> inventory = inventoryRepositoryI.findById(id);
+        Inventory updatedInventory = null;
+        if (inventory.isPresent()) {
+            Inventory dbInventory = inventory.get();
+            dbInventory.setName(body.getName());
+            updatedInventory = inventoryRepositoryI.save(dbInventory);
+        }
+        return updatedInventory;
+    }
+
+
+
+
 
 }
